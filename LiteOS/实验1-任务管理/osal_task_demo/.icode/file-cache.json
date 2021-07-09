@@ -1,0 +1,36 @@
+{
+    "openFiles": [
+        {
+            "file": {
+                "name": "user_demo.mk",
+                "isFolder": false,
+                "path": "targets\\STM32L431_BearPi\\Demos\\user_demo.mk",
+                "parentPath": "D:\\BearPi\\LiteOS\\osal_task_demo\\targets\\STM32L431_BearPi\\Demos",
+                "level": 5,
+                "isOpen": false,
+                "fileExtension": ".mk",
+                "size": 3893
+            },
+            "currentShow": false,
+            "isPreview": false,
+            "isChange": false
+        },
+        {
+            "file": {
+                "name": ".sdkconfig",
+                "isFolder": false,
+                "path": ".sdkconfig",
+                "parentPath": "D:\\BearPi\\LiteOS\\osal_task_demo",
+                "level": 2,
+                "isOpen": false,
+                "fileExtension": "",
+                "size": 1607
+            },
+            "currentShow": false,
+            "isPreview": false,
+            "isChange": false
+        }
+    ],
+    "previewName": "..\\..\\..\\Program Files (x86)\\IoT Studio",
+    "currentShowName": ".sdkconfig"
+}

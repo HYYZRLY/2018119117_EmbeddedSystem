@@ -1,0 +1,353 @@
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"osal_task_demo.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	user_task1_id
+  18              		.section	.bss.user_task1_id,"aw",%nobits
+  19              		.align	2
+  22              	user_task1_id:
+  23 0000 00000000 		.space	4
+  24              		.global	user_task2_id
+  25              		.section	.bss.user_task2_id,"aw",%nobits
+  26              		.align	2
+  29              	user_task2_id:
+  30 0000 00000000 		.space	4
+  31              		.section	.rodata
+  32              		.align	2
+  33              	.LC0:
+  34 0000 7461736B 		.ascii	"task1: my task id is %ld, n = %d!\015\012\000"
+  34      313A206D 
+  34      79207461 
+  34      736B2069 
+  34      64206973 
+  35              		.align	2
+  36              	.LC1:
+  37 0024 75736572 		.ascii	"user task 1 exit!\015\000"
+  37      20746173 
+  37      6B203120 
+  37      65786974 
+  37      210D00
+  38              		.section	.text.user_task1_entry,"ax",%progbits
+  39              		.align	1
+  40              		.syntax unified
+  41              		.thumb
+  42              		.thumb_func
+  43              		.fpu fpv4-sp-d16
+  45              	user_task1_entry:
+  46              	.LFB3:
+  47              		.file 1 "D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo/osal_task
+   1:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** /* 使用osal接口需要包含该头文件 */
+   2:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** #include <osal.h>
+   3:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** 
+   4:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** /* 任务优先级宏定义（shell任务的优先级为10） */
+   5:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** #define USER_TASK1_PRI  12  //低优先级
+   6:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** #define USER_TASK2_PRI  11  //高优先级
+   7:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** 
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s 			page 2
+
+
+   8:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** /* 任务ID */
+   9:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** uint32_t user_task1_id = 0;
+  10:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** uint32_t user_task2_id = 0;
+  11:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** 
+  12:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** /* 任务task1入口函数 */
+  13:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** static int user_task1_entry()
+  14:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** {
+  48              		.loc 1 14 0
+  49              		.cfi_startproc
+  50              		@ args = 0, pretend = 0, frame = 8
+  51              		@ frame_needed = 1, uses_anonymous_args = 0
+  52 0000 80B5     		push	{r7, lr}
+  53              	.LCFI0:
+  54              		.cfi_def_cfa_offset 8
+  55              		.cfi_offset 7, -8
+  56              		.cfi_offset 14, -4
+  57 0002 82B0     		sub	sp, sp, #8
+  58              	.LCFI1:
+  59              		.cfi_def_cfa_offset 16
+  60 0004 00AF     		add	r7, sp, #0
+  61              	.LCFI2:
+  62              		.cfi_def_cfa_register 7
+  15:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     int n = 0;
+  63              		.loc 1 15 0
+  64 0006 0023     		movs	r3, #0
+  65 0008 7B60     		str	r3, [r7, #4]
+  16:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** 
+  17:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     /* 每隔2s在串口打印一次，打印5次后主动结束 */
+  18:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     for(n = 0; n < 5; n++)
+  66              		.loc 1 18 0
+  67 000a 0023     		movs	r3, #0
+  68 000c 7B60     		str	r3, [r7, #4]
+  69 000e 0DE0     		b	.L2
+  70              	.L3:
+  19:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     {
+  20:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****         printf("task1: my task id is %ld, n = %d!\r\n", user_task1_id, n);
+  71              		.loc 1 20 0 discriminator 3
+  72 0010 0C4B     		ldr	r3, .L5
+  73 0012 1B68     		ldr	r3, [r3]
+  74 0014 7A68     		ldr	r2, [r7, #4]
+  75 0016 1946     		mov	r1, r3
+  76 0018 0B48     		ldr	r0, .L5+4
+  77 001a FFF7FEFF 		bl	printf
+  21:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** 
+  22:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****         /* 任务主动挂起2s */
+  23:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****         osal_task_sleep(2*1000);
+  78              		.loc 1 23 0 discriminator 3
+  79 001e 4FF4FA60 		mov	r0, #2000
+  80 0022 FFF7FEFF 		bl	osal_task_sleep
+  18:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     {
+  81              		.loc 1 18 0 discriminator 3
+  82 0026 7B68     		ldr	r3, [r7, #4]
+  83 0028 0133     		adds	r3, r3, #1
+  84 002a 7B60     		str	r3, [r7, #4]
+  85              	.L2:
+  18:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     {
+  86              		.loc 1 18 0 is_stmt 0 discriminator 1
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s 			page 3
+
+
+  87 002c 7B68     		ldr	r3, [r7, #4]
+  88 002e 042B     		cmp	r3, #4
+  89 0030 EEDD     		ble	.L3
+  24:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     }
+  25:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** 
+  26:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     printf("user task 1 exit!\r\n");
+  90              		.loc 1 26 0 is_stmt 1
+  91 0032 0648     		ldr	r0, .L5+8
+  92 0034 FFF7FEFF 		bl	puts
+  27:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** 
+  28:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     /* 任务结束 */
+  29:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     return 0;
+  93              		.loc 1 29 0
+  94 0038 0023     		movs	r3, #0
+  30:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** }
+  95              		.loc 1 30 0
+  96 003a 1846     		mov	r0, r3
+  97 003c 0837     		adds	r7, r7, #8
+  98              	.LCFI3:
+  99              		.cfi_def_cfa_offset 8
+ 100 003e BD46     		mov	sp, r7
+ 101              	.LCFI4:
+ 102              		.cfi_def_cfa_register 13
+ 103              		@ sp needed
+ 104 0040 80BD     		pop	{r7, pc}
+ 105              	.L6:
+ 106 0042 00BF     		.align	2
+ 107              	.L5:
+ 108 0044 00000000 		.word	user_task1_id
+ 109 0048 00000000 		.word	.LC0
+ 110 004c 24000000 		.word	.LC1
+ 111              		.cfi_endproc
+ 112              	.LFE3:
+ 114              		.section	.rodata
+ 115 0037 00       		.align	2
+ 116              	.LC2:
+ 117 0038 7461736B 		.ascii	"task 2: my task id is %ld!\015\012\000"
+ 117      20323A20 
+ 117      6D792074 
+ 117      61736B20 
+ 117      69642069 
+ 118              		.section	.text.user_task2_entry,"ax",%progbits
+ 119              		.align	1
+ 120              		.syntax unified
+ 121              		.thumb
+ 122              		.thumb_func
+ 123              		.fpu fpv4-sp-d16
+ 125              	user_task2_entry:
+ 126              	.LFB4:
+  31:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** /* 任务task2入口函数 */
+  32:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** static int user_task2_entry()
+  33:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** {
+ 127              		.loc 1 33 0
+ 128              		.cfi_startproc
+ 129              		@ args = 0, pretend = 0, frame = 0
+ 130              		@ frame_needed = 1, uses_anonymous_args = 0
+ 131 0000 80B5     		push	{r7, lr}
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s 			page 4
+
+
+ 132              	.LCFI5:
+ 133              		.cfi_def_cfa_offset 8
+ 134              		.cfi_offset 7, -8
+ 135              		.cfi_offset 14, -4
+ 136 0002 00AF     		add	r7, sp, #0
+ 137              	.LCFI6:
+ 138              		.cfi_def_cfa_register 7
+ 139              	.L8:
+  34:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     /* 每隔2s在串口打印一次，不结束 */
+  35:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     while (1)
+  36:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     {
+  37:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****         printf("task 2: my task id is %ld!\r\n", user_task2_id);
+ 140              		.loc 1 37 0 discriminator 1
+ 141 0004 054B     		ldr	r3, .L9
+ 142 0006 1B68     		ldr	r3, [r3]
+ 143 0008 1946     		mov	r1, r3
+ 144 000a 0548     		ldr	r0, .L9+4
+ 145 000c FFF7FEFF 		bl	printf
+  38:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** 
+  39:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****         /* 任务主动挂起2s */
+  40:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****         osal_task_sleep(2*1000);
+ 146              		.loc 1 40 0 discriminator 1
+ 147 0010 4FF4FA60 		mov	r0, #2000
+ 148 0014 FFF7FEFF 		bl	osal_task_sleep
+  37:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** 
+ 149              		.loc 1 37 0 discriminator 1
+ 150 0018 F4E7     		b	.L8
+ 151              	.L10:
+ 152 001a 00BF     		.align	2
+ 153              	.L9:
+ 154 001c 00000000 		.word	user_task2_id
+ 155 0020 38000000 		.word	.LC2
+ 156              		.cfi_endproc
+ 157              	.LFE4:
+ 159              		.section	.rodata
+ 160 0055 000000   		.align	2
+ 161              	.LC3:
+ 162 0058 75736572 		.ascii	"user_task1\000"
+ 162      5F746173 
+ 162      6B3100
+ 163 0063 00       		.align	2
+ 164              	.LC4:
+ 165 0064 75736572 		.ascii	"user_task2\000"
+ 165      5F746173 
+ 165      6B3200
+ 166              		.section	.text.standard_app_demo_main,"ax",%progbits
+ 167              		.align	1
+ 168              		.global	standard_app_demo_main
+ 169              		.syntax unified
+ 170              		.thumb
+ 171              		.thumb_func
+ 172              		.fpu fpv4-sp-d16
+ 174              	standard_app_demo_main:
+ 175              	.LFB5:
+  41:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     }
+  42:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** }
+  43:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** 
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s 			page 5
+
+
+  44:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** /* 标准demo启动函数，函数名不要修改，否则会影响下一步实验 */
+  45:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** int standard_app_demo_main()
+  46:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** {
+ 176              		.loc 1 46 0
+ 177              		.cfi_startproc
+ 178              		@ args = 0, pretend = 0, frame = 0
+ 179              		@ frame_needed = 1, uses_anonymous_args = 0
+ 180 0000 80B5     		push	{r7, lr}
+ 181              	.LCFI7:
+ 182              		.cfi_def_cfa_offset 8
+ 183              		.cfi_offset 7, -8
+ 184              		.cfi_offset 14, -4
+ 185 0002 82B0     		sub	sp, sp, #8
+ 186              	.LCFI8:
+ 187              		.cfi_def_cfa_offset 16
+ 188 0004 02AF     		add	r7, sp, #8
+ 189              	.LCFI9:
+ 190              		.cfi_def_cfa 7, 8
+  47:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     /* 创建任务task1 */
+  48:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     user_task1_id = osal_task_create("user_task1",user_task1_entry,NULL,0x400,NULL,USER_TASK1_PRI);
+ 191              		.loc 1 48 0
+ 192 0006 0C23     		movs	r3, #12
+ 193 0008 0193     		str	r3, [sp, #4]
+ 194 000a 0023     		movs	r3, #0
+ 195 000c 0093     		str	r3, [sp]
+ 196 000e 4FF48063 		mov	r3, #1024
+ 197 0012 0022     		movs	r2, #0
+ 198 0014 0D49     		ldr	r1, .L13
+ 199 0016 0E48     		ldr	r0, .L13+4
+ 200 0018 FFF7FEFF 		bl	osal_task_create
+ 201 001c 0346     		mov	r3, r0
+ 202 001e 1A46     		mov	r2, r3
+ 203 0020 0C4B     		ldr	r3, .L13+8
+ 204 0022 1A60     		str	r2, [r3]
+  49:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** 
+  50:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     /* 创建任务task2 */
+  51:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     user_task2_id = osal_task_create("user_task2",user_task2_entry,NULL,0x400,NULL,USER_TASK2_PRI);
+ 205              		.loc 1 51 0
+ 206 0024 0B23     		movs	r3, #11
+ 207 0026 0193     		str	r3, [sp, #4]
+ 208 0028 0023     		movs	r3, #0
+ 209 002a 0093     		str	r3, [sp]
+ 210 002c 4FF48063 		mov	r3, #1024
+ 211 0030 0022     		movs	r2, #0
+ 212 0032 0949     		ldr	r1, .L13+12
+ 213 0034 0948     		ldr	r0, .L13+16
+ 214 0036 FFF7FEFF 		bl	osal_task_create
+ 215 003a 0346     		mov	r3, r0
+ 216 003c 1A46     		mov	r2, r3
+ 217 003e 084B     		ldr	r3, .L13+20
+ 218 0040 1A60     		str	r2, [r3]
+  52:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** 
+  53:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c ****     return 0;
+ 219              		.loc 1 53 0
+ 220 0042 0023     		movs	r3, #0
+  54:D:/BearPi/LiteOS/osal_task_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_task_demo.c **** }...
+ 221              		.loc 1 54 0
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s 			page 6
+
+
+ 222 0044 1846     		mov	r0, r3
+ 223 0046 BD46     		mov	sp, r7
+ 224              	.LCFI10:
+ 225              		.cfi_def_cfa_register 13
+ 226              		@ sp needed
+ 227 0048 80BD     		pop	{r7, pc}
+ 228              	.L14:
+ 229 004a 00BF     		.align	2
+ 230              	.L13:
+ 231 004c 00000000 		.word	user_task1_entry
+ 232 0050 58000000 		.word	.LC3
+ 233 0054 00000000 		.word	user_task1_id
+ 234 0058 00000000 		.word	user_task2_entry
+ 235 005c 64000000 		.word	.LC4
+ 236 0060 00000000 		.word	user_task2_id
+ 237              		.cfi_endproc
+ 238              	.LFE5:
+ 240              		.text
+ 241              	.Letext0:
+ 242              		.file 2 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 243              		.file 3 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 244              		.file 4 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 245              		.file 5 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 246              		.file 6 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\lib\\gcc\\arm-n
+ 247              		.file 7 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 osal_task_demo.c
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:22     .bss.user_task1_id:00000000 user_task1_id
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:19     .bss.user_task1_id:00000000 $d
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:29     .bss.user_task2_id:00000000 user_task2_id
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:26     .bss.user_task2_id:00000000 $d
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:32     .rodata:00000000 $d
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:39     .text.user_task1_entry:00000000 $t
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:45     .text.user_task1_entry:00000000 user_task1_entry
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:108    .text.user_task1_entry:00000044 $d
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:119    .text.user_task2_entry:00000000 $t
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:125    .text.user_task2_entry:00000000 user_task2_entry
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:154    .text.user_task2_entry:0000001c $d
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:167    .text.standard_app_demo_main:00000000 $t
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:174    .text.standard_app_demo_main:00000000 standard_app_demo_main
+C:\Users\LY\AppData\Local\Temp\ccdTT4pc.s:231    .text.standard_app_demo_main:0000004c $d
+
+UNDEFINED SYMBOLS
+printf
+osal_task_sleep
+puts
+osal_task_create
