@@ -1,0 +1,51 @@
+{
+    "openFiles": [
+        {
+            "file": {
+                "name": "osal_semp_demo.c",
+                "size": 0,
+                "path": "targets\\STM32L431_BearPi\\Demos\\osal_kernel_demo\\osal_semp_demo.c",
+                "fileExtension": ".c",
+                "isFolder": false,
+                "isOpen": false,
+                "level": 6,
+                "parentPath": "D:\\BearPi\\LiteOS\\osal_semp_demo\\targets\\STM32L431_BearPi\\Demos\\osal_kernel_demo"
+            },
+            "currentShow": false,
+            "isPreview": false,
+            "isChange": false
+        },
+        {
+            "file": {
+                "name": ".sdkconfig",
+                "isFolder": false,
+                "path": ".sdkconfig",
+                "parentPath": "D:\\BearPi\\LiteOS\\osal_semp_demo",
+                "level": 2,
+                "isOpen": false,
+                "fileExtension": "",
+                "size": 1607
+            },
+            "currentShow": false,
+            "isPreview": false,
+            "isChange": false
+        },
+        {
+            "file": {
+                "name": "user_demo.mk",
+                "isFolder": false,
+                "path": "targets\\STM32L431_BearPi\\Demos\\user_demo.mk",
+                "parentPath": "D:\\BearPi\\LiteOS\\osal_semp_demo\\targets\\STM32L431_BearPi\\Demos",
+                "level": 5,
+                "isOpen": false,
+                "fileExtension": ".mk",
+                "size": 3893
+            },
+            "currentShow": false,
+            "isPreview": false,
+            "isChange": false
+        }
+    ],
+    "previewName": "..\\..\\..\\Program Files (x86)\\IoT Studio",
+    "currentShowName": "targets\\STM32L431_BearPi\\Demos\\user_demo.mk"
+}
