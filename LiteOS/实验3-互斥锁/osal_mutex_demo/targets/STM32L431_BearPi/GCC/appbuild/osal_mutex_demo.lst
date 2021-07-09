@@ -1,0 +1,445 @@
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccibl44x.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"osal_mutex_demo.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	public_value
+  18              		.section	.bss.public_value,"aw",%nobits
+  19              		.align	2
+  22              	public_value:
+  23 0000 00000000 		.space	4
+  24              		.comm	public_value_mutex,4,4
+  25              		.section	.rodata
+  26              		.align	2
+  27              	.LC0:
+  28 0000 0D0A7461 		.ascii	"\015\012task1: lock a mutex.\015\000"
+  28      736B313A 
+  28      206C6F63 
+  28      6B206120 
+  28      6D757465 
+  29              		.align	2
+  30              	.LC1:
+  31 0018 7461736B 		.ascii	"task1: public_value = %ld.\015\012\000"
+  31      313A2070 
+  31      75626C69 
+  31      635F7661 
+  31      6C756520 
+  32 0035 000000   		.align	2
+  33              	.LC2:
+  34 0038 7461736B 		.ascii	"task1: unlock a mutex.\015\012\015\000"
+  34      313A2075 
+  34      6E6C6F63 
+  34      6B206120 
+  34      6D757465 
+  35              		.section	.text.user_task1_entry,"ax",%progbits
+  36              		.align	1
+  37              		.syntax unified
+  38              		.thumb
+  39              		.thumb_func
+  40              		.fpu fpv4-sp-d16
+  42              	user_task1_entry:
+  43              	.LFB3:
+  44              		.file 1 "D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo/osal_mut
+   1:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** /* 使用osal接口需要包含该头文件 */
+   2:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** #include <osal.h>
+   3:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+   4:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** /* 任务优先级宏定义（shell任务的优先级为10） */
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccibl44x.s 			page 2
+
+
+   5:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** #define USER_TASK1_PRI  12  //低优先级
+   6:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** #define USER_TASK2_PRI  11  //高优先级
+   7:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+   8:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** /* 共享资源 */
+   9:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** uint32_t public_value = 0;
+  10:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  11:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** /* 互斥锁索引ID */
+  12:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** osal_mutex_t public_value_mutex;
+  13:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  14:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** /* 任务task1入口函数 */
+  15:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** static int user_task1_entry()
+  16:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** {
+  45              		.loc 1 16 0
+  46              		.cfi_startproc
+  47              		@ args = 0, pretend = 0, frame = 0
+  48              		@ frame_needed = 1, uses_anonymous_args = 0
+  49 0000 80B5     		push	{r7, lr}
+  50              	.LCFI0:
+  51              		.cfi_def_cfa_offset 8
+  52              		.cfi_offset 7, -8
+  53              		.cfi_offset 14, -4
+  54 0002 00AF     		add	r7, sp, #0
+  55              	.LCFI1:
+  56              		.cfi_def_cfa_register 7
+  57              	.L4:
+  17:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     while(1)
+  18:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     {
+  19:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****         /* 尝试获取互斥锁 */
+  20:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****         if(true == osal_mutex_lock(public_value_mutex))
+  58              		.loc 1 20 0
+  59 0004 134B     		ldr	r3, .L8
+  60 0006 1B68     		ldr	r3, [r3]
+  61 0008 1846     		mov	r0, r3
+  62 000a FFF7FEFF 		bl	osal_mutex_lock
+  63 000e 0346     		mov	r3, r0
+  64 0010 012B     		cmp	r3, #1
+  65 0012 F7D1     		bne	.L4
+  21:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****         {
+  22:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             /* 获取到互斥锁，对共享资源进行操作 */
+  23:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             printf("\r\ntask1: lock a mutex.\r\n");
+  66              		.loc 1 23 0
+  67 0014 1048     		ldr	r0, .L8+4
+  68 0016 FFF7FEFF 		bl	puts
+  24:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             public_value += 10;
+  69              		.loc 1 24 0
+  70 001a 104B     		ldr	r3, .L8+8
+  71 001c 1B68     		ldr	r3, [r3]
+  72 001e 0A33     		adds	r3, r3, #10
+  73 0020 0E4A     		ldr	r2, .L8+8
+  74 0022 1360     		str	r3, [r2]
+  25:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             printf("task1: public_value = %ld.\r\n", public_value);
+  75              		.loc 1 25 0
+  76 0024 0D4B     		ldr	r3, .L8+8
+  77 0026 1B68     		ldr	r3, [r3]
+  78 0028 1946     		mov	r1, r3
+  79 002a 0D48     		ldr	r0, .L8+12
+  80 002c FFF7FEFF 		bl	printf
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccibl44x.s 			page 3
+
+
+  26:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  27:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             /* 对共享资源操作完毕，释放互斥锁 */
+  28:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             printf("task1: unlock a mutex.\r\n\r\n");
+  81              		.loc 1 28 0
+  82 0030 0C48     		ldr	r0, .L8+16
+  83 0032 FFF7FEFF 		bl	puts
+  29:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             osal_mutex_unlock(public_value_mutex);
+  84              		.loc 1 29 0
+  85 0036 074B     		ldr	r3, .L8
+  86 0038 1B68     		ldr	r3, [r3]
+  87 003a 1846     		mov	r0, r3
+  88 003c FFF7FEFF 		bl	osal_mutex_unlock
+  30:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  31:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             /* 满足条件则结束任务 */
+  32:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             if(public_value > 100)
+  89              		.loc 1 32 0
+  90 0040 064B     		ldr	r3, .L8+8
+  91 0042 1B68     		ldr	r3, [r3]
+  92 0044 642B     		cmp	r3, #100
+  93 0046 00D8     		bhi	.L7
+  20:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****         {
+  94              		.loc 1 20 0
+  95 0048 DCE7     		b	.L4
+  96              	.L7:
+  33:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****                 break;
+  97              		.loc 1 33 0
+  98 004a 00BF     		nop
+  34:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  35:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****         }
+  36:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     }
+  37:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  38:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     /* while(1)会执行结束，所以需要返回值 */
+  39:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     return 0;
+  99              		.loc 1 39 0
+ 100 004c 0023     		movs	r3, #0
+  40:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** }
+ 101              		.loc 1 40 0
+ 102 004e 1846     		mov	r0, r3
+ 103 0050 80BD     		pop	{r7, pc}
+ 104              	.L9:
+ 105 0052 00BF     		.align	2
+ 106              	.L8:
+ 107 0054 00000000 		.word	public_value_mutex
+ 108 0058 00000000 		.word	.LC0
+ 109 005c 00000000 		.word	public_value
+ 110 0060 18000000 		.word	.LC1
+ 111 0064 38000000 		.word	.LC2
+ 112              		.cfi_endproc
+ 113              	.LFE3:
+ 115              		.section	.rodata
+ 116 0052 0000     		.align	2
+ 117              	.LC3:
+ 118 0054 0D0A7461 		.ascii	"\015\012task2: lock a mutex.\015\000"
+ 118      736B323A 
+ 118      206C6F63 
+ 118      6B206120 
+ 118      6D757465 
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccibl44x.s 			page 4
+
+
+ 119              		.align	2
+ 120              	.LC4:
+ 121 006c 7461736B 		.ascii	"task2: public_value = %ld.\015\012\000"
+ 121      323A2070 
+ 121      75626C69 
+ 121      635F7661 
+ 121      6C756520 
+ 122 0089 000000   		.align	2
+ 123              	.LC5:
+ 124 008c 7461736B 		.ascii	"task2: unlock a mutex.\015\012\015\000"
+ 124      323A2075 
+ 124      6E6C6F63 
+ 124      6B206120 
+ 124      6D757465 
+ 125              		.section	.text.user_task2_entry,"ax",%progbits
+ 126              		.align	1
+ 127              		.syntax unified
+ 128              		.thumb
+ 129              		.thumb_func
+ 130              		.fpu fpv4-sp-d16
+ 132              	user_task2_entry:
+ 133              	.LFB4:
+  41:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  42:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** /* 任务task2入口函数 */
+  43:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** static int user_task2_entry()
+  44:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** {
+ 134              		.loc 1 44 0
+ 135              		.cfi_startproc
+ 136              		@ args = 0, pretend = 0, frame = 0
+ 137              		@ frame_needed = 1, uses_anonymous_args = 0
+ 138 0000 80B5     		push	{r7, lr}
+ 139              	.LCFI2:
+ 140              		.cfi_def_cfa_offset 8
+ 141              		.cfi_offset 7, -8
+ 142              		.cfi_offset 14, -4
+ 143 0002 00AF     		add	r7, sp, #0
+ 144              	.LCFI3:
+ 145              		.cfi_def_cfa_register 7
+ 146              	.L14:
+  45:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     while (1)
+  46:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     {
+  47:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****         /* 尝试获取互斥锁 */
+  48:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****        if(true == osal_mutex_lock(public_value_mutex))
+ 147              		.loc 1 48 0
+ 148 0004 144B     		ldr	r3, .L18
+ 149 0006 1B68     		ldr	r3, [r3]
+ 150 0008 1846     		mov	r0, r3
+ 151 000a FFF7FEFF 		bl	osal_mutex_lock
+ 152 000e 0346     		mov	r3, r0
+ 153 0010 012B     		cmp	r3, #1
+ 154 0012 F7D1     		bne	.L14
+  49:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****         {
+  50:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             /* 获取到互斥锁，对共享资源进行操作 */
+  51:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             printf("\r\ntask2: lock a mutex.\r\n");
+ 155              		.loc 1 51 0
+ 156 0014 1148     		ldr	r0, .L18+4
+ 157 0016 FFF7FEFF 		bl	puts
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccibl44x.s 			page 5
+
+
+  52:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             public_value += 5; 
+ 158              		.loc 1 52 0
+ 159 001a 114B     		ldr	r3, .L18+8
+ 160 001c 1B68     		ldr	r3, [r3]
+ 161 001e 0533     		adds	r3, r3, #5
+ 162 0020 0F4A     		ldr	r2, .L18+8
+ 163 0022 1360     		str	r3, [r2]
+  53:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             printf("task2: public_value = %ld.\r\n", public_value);
+ 164              		.loc 1 53 0
+ 165 0024 0E4B     		ldr	r3, .L18+8
+ 166 0026 1B68     		ldr	r3, [r3]
+ 167 0028 1946     		mov	r1, r3
+ 168 002a 0E48     		ldr	r0, .L18+12
+ 169 002c FFF7FEFF 		bl	printf
+  54:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  55:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             /* 对共享资源操作完毕，释放互斥锁 */
+  56:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             printf("task2: unlock a mutex.\r\n\r\n");
+ 170              		.loc 1 56 0
+ 171 0030 0D48     		ldr	r0, .L18+16
+ 172 0032 FFF7FEFF 		bl	puts
+  57:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             osal_mutex_unlock(public_value_mutex);
+ 173              		.loc 1 57 0
+ 174 0036 084B     		ldr	r3, .L18
+ 175 0038 1B68     		ldr	r3, [r3]
+ 176 003a 1846     		mov	r0, r3
+ 177 003c FFF7FEFF 		bl	osal_mutex_unlock
+  58:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  59:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             /* 满足条件则结束任务 */
+  60:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             if(public_value > 90)
+ 178              		.loc 1 60 0
+ 179 0040 074B     		ldr	r3, .L18+8
+ 180 0042 1B68     		ldr	r3, [r3]
+ 181 0044 5A2B     		cmp	r3, #90
+ 182 0046 03D8     		bhi	.L17
+  61:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****                 break;
+  62:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             /* 优先级较高，需要挂起一下，让task1获取到互斥锁，否则task2再�
+  63:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****             osal_task_sleep(10);
+ 183              		.loc 1 63 0
+ 184 0048 0A20     		movs	r0, #10
+ 185 004a FFF7FEFF 		bl	osal_task_sleep
+  48:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****         {
+ 186              		.loc 1 48 0
+ 187 004e D9E7     		b	.L14
+ 188              	.L17:
+  61:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****                 break;
+ 189              		.loc 1 61 0
+ 190 0050 00BF     		nop
+  64:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****         }
+  65:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     }
+  66:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  67:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     /* while(1)会执行结束，所以需要返回值 */
+  68:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     return 0;
+ 191              		.loc 1 68 0
+ 192 0052 0023     		movs	r3, #0
+  69:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** }
+ 193              		.loc 1 69 0
+ 194 0054 1846     		mov	r0, r3
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccibl44x.s 			page 6
+
+
+ 195 0056 80BD     		pop	{r7, pc}
+ 196              	.L19:
+ 197              		.align	2
+ 198              	.L18:
+ 199 0058 00000000 		.word	public_value_mutex
+ 200 005c 54000000 		.word	.LC3
+ 201 0060 00000000 		.word	public_value
+ 202 0064 6C000000 		.word	.LC4
+ 203 0068 8C000000 		.word	.LC5
+ 204              		.cfi_endproc
+ 205              	.LFE4:
+ 207              		.section	.rodata
+ 208 00a6 0000     		.align	2
+ 209              	.LC6:
+ 210 00a8 75736572 		.ascii	"user_task1\000"
+ 210      5F746173 
+ 210      6B3100
+ 211 00b3 00       		.align	2
+ 212              	.LC7:
+ 213 00b4 75736572 		.ascii	"user_task2\000"
+ 213      5F746173 
+ 213      6B3200
+ 214              		.section	.text.standard_app_demo_main,"ax",%progbits
+ 215              		.align	1
+ 216              		.global	standard_app_demo_main
+ 217              		.syntax unified
+ 218              		.thumb
+ 219              		.thumb_func
+ 220              		.fpu fpv4-sp-d16
+ 222              	standard_app_demo_main:
+ 223              	.LFB5:
+  70:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  71:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** /* 标准demo启动函数，函数名不要修改，否则会影响下一步实验 */
+  72:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** int standard_app_demo_main()
+  73:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** {
+ 224              		.loc 1 73 0
+ 225              		.cfi_startproc
+ 226              		@ args = 0, pretend = 0, frame = 0
+ 227              		@ frame_needed = 1, uses_anonymous_args = 0
+ 228 0000 80B5     		push	{r7, lr}
+ 229              	.LCFI4:
+ 230              		.cfi_def_cfa_offset 8
+ 231              		.cfi_offset 7, -8
+ 232              		.cfi_offset 14, -4
+ 233 0002 82B0     		sub	sp, sp, #8
+ 234              	.LCFI5:
+ 235              		.cfi_def_cfa_offset 16
+ 236 0004 02AF     		add	r7, sp, #8
+ 237              	.LCFI6:
+ 238              		.cfi_def_cfa 7, 8
+  74:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     /* 创建互斥锁public_value_mutex */
+  75:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     osal_mutex_create(&public_value_mutex);
+ 239              		.loc 1 75 0
+ 240 0006 0E48     		ldr	r0, .L22
+ 241 0008 FFF7FEFF 		bl	osal_mutex_create
+  76:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  77:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     /* 创建任务task1 */
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccibl44x.s 			page 7
+
+
+  78:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     osal_task_create("user_task1",user_task1_entry,NULL,0x400,NULL,USER_TASK1_PRI);
+ 242              		.loc 1 78 0
+ 243 000c 0C23     		movs	r3, #12
+ 244 000e 0193     		str	r3, [sp, #4]
+ 245 0010 0023     		movs	r3, #0
+ 246 0012 0093     		str	r3, [sp]
+ 247 0014 4FF48063 		mov	r3, #1024
+ 248 0018 0022     		movs	r2, #0
+ 249 001a 0A49     		ldr	r1, .L22+4
+ 250 001c 0A48     		ldr	r0, .L22+8
+ 251 001e FFF7FEFF 		bl	osal_task_create
+  79:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  80:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     /* 创建任务task2 */
+  81:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     osal_task_create("user_task2",user_task2_entry,NULL,0x400,NULL,USER_TASK2_PRI);
+ 252              		.loc 1 81 0
+ 253 0022 0B23     		movs	r3, #11
+ 254 0024 0193     		str	r3, [sp, #4]
+ 255 0026 0023     		movs	r3, #0
+ 256 0028 0093     		str	r3, [sp]
+ 257 002a 4FF48063 		mov	r3, #1024
+ 258 002e 0022     		movs	r2, #0
+ 259 0030 0649     		ldr	r1, .L22+12
+ 260 0032 0748     		ldr	r0, .L22+16
+ 261 0034 FFF7FEFF 		bl	osal_task_create
+  82:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** 
+  83:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c ****     return 0;
+ 262              		.loc 1 83 0
+ 263 0038 0023     		movs	r3, #0
+  84:D:/BearPi/LiteOS/osal_mutex_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mutex_demo.c **** }...
+ 264              		.loc 1 84 0
+ 265 003a 1846     		mov	r0, r3
+ 266 003c BD46     		mov	sp, r7
+ 267              	.LCFI7:
+ 268              		.cfi_def_cfa_register 13
+ 269              		@ sp needed
+ 270 003e 80BD     		pop	{r7, pc}
+ 271              	.L23:
+ 272              		.align	2
+ 273              	.L22:
+ 274 0040 00000000 		.word	public_value_mutex
+ 275 0044 00000000 		.word	user_task1_entry
+ 276 0048 A8000000 		.word	.LC6
+ 277 004c 00000000 		.word	user_task2_entry
+ 278 0050 B4000000 		.word	.LC7
+ 279              		.cfi_endproc
+ 280              	.LFE5:
+ 282              		.text
+ 283              	.Letext0:
+ 284              		.file 2 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 285              		.file 3 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 286              		.file 4 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 287              		.file 5 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 288              		.file 6 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\lib\\gcc\\arm-n
+ 289              		.file 7 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 290              		.file 8 "C:/Users/LY/.icode/sdk/IoT_LINK_1.0.0/iot_link/os/osal/osal_types.h"
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccibl44x.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 osal_mutex_demo.c
+C:\Users\LY\AppData\Local\Temp\ccibl44x.s:22     .bss.public_value:00000000 public_value
+C:\Users\LY\AppData\Local\Temp\ccibl44x.s:19     .bss.public_value:00000000 $d
+                            *COM*:00000004 public_value_mutex
+C:\Users\LY\AppData\Local\Temp\ccibl44x.s:26     .rodata:00000000 $d
+C:\Users\LY\AppData\Local\Temp\ccibl44x.s:36     .text.user_task1_entry:00000000 $t
+C:\Users\LY\AppData\Local\Temp\ccibl44x.s:42     .text.user_task1_entry:00000000 user_task1_entry
+C:\Users\LY\AppData\Local\Temp\ccibl44x.s:107    .text.user_task1_entry:00000054 $d
+C:\Users\LY\AppData\Local\Temp\ccibl44x.s:126    .text.user_task2_entry:00000000 $t
+C:\Users\LY\AppData\Local\Temp\ccibl44x.s:132    .text.user_task2_entry:00000000 user_task2_entry
+C:\Users\LY\AppData\Local\Temp\ccibl44x.s:199    .text.user_task2_entry:00000058 $d
+C:\Users\LY\AppData\Local\Temp\ccibl44x.s:215    .text.standard_app_demo_main:00000000 $t
+C:\Users\LY\AppData\Local\Temp\ccibl44x.s:222    .text.standard_app_demo_main:00000000 standard_app_demo_main
+C:\Users\LY\AppData\Local\Temp\ccibl44x.s:274    .text.standard_app_demo_main:00000040 $d
+
+UNDEFINED SYMBOLS
+osal_mutex_lock
+puts
+printf
+osal_mutex_unlock
+osal_task_sleep
+osal_mutex_create
+osal_task_create
