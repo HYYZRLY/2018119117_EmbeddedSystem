@@ -1,0 +1,271 @@
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccfgezNL.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"osal_mem_demo.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata
+  18              		.align	2
+  19              	.LC0:
+  20 0000 61636365 		.ascii	"access %d bytes memory success!\015\012\000"
+  20      73732025 
+  20      64206279 
+  20      74657320 
+  20      6D656D6F 
+  21 0022 0000     		.align	2
+  22              	.LC1:
+  23 0024 66726565 		.ascii	"free memory success!\015\000"
+  23      206D656D 
+  23      6F727920 
+  23      73756363 
+  23      65737321 
+  24 003a 0000     		.align	2
+  25              	.LC2:
+  26 003c 61636365 		.ascii	"access %d bytes memory failed!\015\012\000"
+  26      73732025 
+  26      64206279 
+  26      74657320 
+  26      6D656D6F 
+  27              		.section	.text.mem_access_task_entry,"ax",%progbits
+  28              		.align	1
+  29              		.syntax unified
+  30              		.thumb
+  31              		.thumb_func
+  32              		.fpu fpv4-sp-d16
+  34              	mem_access_task_entry:
+  35              	.LFB3:
+  36              		.file 1 "D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo/osal_mem_d
+   1:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** /* 使用osal接口需要包含该头文件 */
+   2:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** #include <osal.h>
+   3:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** 
+   4:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** /* 任务入口函数 */
+   5:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** static int mem_access_task_entry()
+   6:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** {
+  37              		.loc 1 6 0
+  38              		.cfi_startproc
+  39              		@ args = 0, pretend = 0, frame = 16
+  40              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccfgezNL.s 			page 2
+
+
+  41 0000 80B5     		push	{r7, lr}
+  42              	.LCFI0:
+  43              		.cfi_def_cfa_offset 8
+  44              		.cfi_offset 7, -8
+  45              		.cfi_offset 14, -4
+  46 0002 84B0     		sub	sp, sp, #16
+  47              	.LCFI1:
+  48              		.cfi_def_cfa_offset 24
+  49 0004 00AF     		add	r7, sp, #0
+  50              	.LCFI2:
+  51              		.cfi_def_cfa_register 7
+   7:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****     uint32_t i = 0;     //循环变量
+  52              		.loc 1 7 0
+  53 0006 0023     		movs	r3, #0
+  54 0008 FB60     		str	r3, [r7, #12]
+   8:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****     size_t mem_size;    //申请的内存块大小
+   9:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****     uint8_t* mem_ptr = NULL;    //内存块指针
+  55              		.loc 1 9 0
+  56 000a 0023     		movs	r3, #0
+  57 000c BB60     		str	r3, [r7, #8]
+  58              	.L5:
+  10:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** 
+  11:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****     while (1)
+  12:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****     {
+  13:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****         /* 每次循环将申请内存的大小扩大一倍 */
+  14:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****         mem_size = 1 << i++;
+  59              		.loc 1 14 0
+  60 000e FB68     		ldr	r3, [r7, #12]
+  61 0010 5A1C     		adds	r2, r3, #1
+  62 0012 FA60     		str	r2, [r7, #12]
+  63 0014 0122     		movs	r2, #1
+  64 0016 02FA03F3 		lsl	r3, r2, r3
+  65 001a 7B60     		str	r3, [r7, #4]
+  15:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** 
+  16:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****         /* 尝试申请分配内存 */
+  17:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****         mem_ptr = osal_malloc(mem_size);
+  66              		.loc 1 17 0
+  67 001c 7868     		ldr	r0, [r7, #4]
+  68 001e FFF7FEFF 		bl	osal_malloc
+  69 0022 B860     		str	r0, [r7, #8]
+  18:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** 
+  19:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****         /* 判断是否申请成功 */
+  20:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****         if(mem_ptr != NULL)
+  70              		.loc 1 20 0
+  71 0024 BB68     		ldr	r3, [r7, #8]
+  72 0026 002B     		cmp	r3, #0
+  73 0028 0CD0     		beq	.L2
+  21:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****         {
+  22:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****             /* 申请成功，打印信息 */
+  23:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****             printf("access %d bytes memory success!\r\n", mem_size);
+  74              		.loc 1 23 0
+  75 002a 7968     		ldr	r1, [r7, #4]
+  76 002c 0A48     		ldr	r0, .L8
+  77 002e FFF7FEFF 		bl	printf
+  24:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** 
+  25:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****             /* 释放申请的内存，便于下次申请 */
+  26:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****             osal_free(mem_ptr);
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccfgezNL.s 			page 3
+
+
+  78              		.loc 1 26 0
+  79 0032 B868     		ldr	r0, [r7, #8]
+  80 0034 FFF7FEFF 		bl	osal_free
+  27:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** 
+  28:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****             /* 将内存块指针置为NULL，避免称为野指针 */
+  29:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****             mem_ptr = NULL;
+  81              		.loc 1 29 0
+  82 0038 0023     		movs	r3, #0
+  83 003a BB60     		str	r3, [r7, #8]
+  30:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** 
+  31:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****             printf("free memory success!\r\n");
+  84              		.loc 1 31 0
+  85 003c 0748     		ldr	r0, .L8+4
+  86 003e FFF7FEFF 		bl	puts
+  87 0042 E4E7     		b	.L5
+  88              	.L2:
+  32:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** 
+  33:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****         }
+  34:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****         else
+  35:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****         {
+  36:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****             /* 申请失败，打印信息，任务结束 */
+  37:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****             printf("access %d bytes memory failed!\r\n", mem_size);
+  89              		.loc 1 37 0
+  90 0044 7968     		ldr	r1, [r7, #4]
+  91 0046 0648     		ldr	r0, .L8+8
+  92 0048 FFF7FEFF 		bl	printf
+  38:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****             return 0;
+  93              		.loc 1 38 0
+  94 004c 0023     		movs	r3, #0
+  39:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****         }
+  40:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****     }
+  41:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** }
+  95              		.loc 1 41 0
+  96 004e 1846     		mov	r0, r3
+  97 0050 1037     		adds	r7, r7, #16
+  98              	.LCFI3:
+  99              		.cfi_def_cfa_offset 8
+ 100 0052 BD46     		mov	sp, r7
+ 101              	.LCFI4:
+ 102              		.cfi_def_cfa_register 13
+ 103              		@ sp needed
+ 104 0054 80BD     		pop	{r7, pc}
+ 105              	.L9:
+ 106 0056 00BF     		.align	2
+ 107              	.L8:
+ 108 0058 00000000 		.word	.LC0
+ 109 005c 24000000 		.word	.LC1
+ 110 0060 3C000000 		.word	.LC2
+ 111              		.cfi_endproc
+ 112              	.LFE3:
+ 114              		.section	.rodata
+ 115 005d 000000   		.align	2
+ 116              	.LC3:
+ 117 0060 6D656D5F 		.ascii	"mem_access_task\000"
+ 117      61636365 
+ 117      73735F74 
+ 117      61736B00 
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccfgezNL.s 			page 4
+
+
+ 118              		.section	.text.standard_app_demo_main,"ax",%progbits
+ 119              		.align	1
+ 120              		.global	standard_app_demo_main
+ 121              		.syntax unified
+ 122              		.thumb
+ 123              		.thumb_func
+ 124              		.fpu fpv4-sp-d16
+ 126              	standard_app_demo_main:
+ 127              	.LFB4:
+  42:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** 
+  43:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** /* 标准demo启动函数，函数名不要修改，否则会影响下一步实验 */
+  44:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** int standard_app_demo_main()
+  45:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** {
+ 128              		.loc 1 45 0
+ 129              		.cfi_startproc
+ 130              		@ args = 0, pretend = 0, frame = 0
+ 131              		@ frame_needed = 1, uses_anonymous_args = 0
+ 132 0000 80B5     		push	{r7, lr}
+ 133              	.LCFI5:
+ 134              		.cfi_def_cfa_offset 8
+ 135              		.cfi_offset 7, -8
+ 136              		.cfi_offset 14, -4
+ 137 0002 82B0     		sub	sp, sp, #8
+ 138              	.LCFI6:
+ 139              		.cfi_def_cfa_offset 16
+ 140 0004 02AF     		add	r7, sp, #8
+ 141              	.LCFI7:
+ 142              		.cfi_def_cfa 7, 8
+  46:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****     /* 创建任务，任务优先级为11，shell任务的优先级为10 */
+  47:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****     osal_task_create("mem_access_task",mem_access_task_entry,NULL,0x400,NULL,11);
+ 143              		.loc 1 47 0
+ 144 0006 0B23     		movs	r3, #11
+ 145 0008 0193     		str	r3, [sp, #4]
+ 146 000a 0023     		movs	r3, #0
+ 147 000c 0093     		str	r3, [sp]
+ 148 000e 4FF48063 		mov	r3, #1024
+ 149 0012 0022     		movs	r2, #0
+ 150 0014 0349     		ldr	r1, .L12
+ 151 0016 0448     		ldr	r0, .L12+4
+ 152 0018 FFF7FEFF 		bl	osal_task_create
+  48:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c ****     return 0;
+ 153              		.loc 1 48 0
+ 154 001c 0023     		movs	r3, #0
+  49:D:/BearPi/LiteOS/osal_mem_demo/targets/STM32L431_BearPi/Demos/osal_kernel_demo\osal_mem_demo.c **** }...
+ 155              		.loc 1 49 0
+ 156 001e 1846     		mov	r0, r3
+ 157 0020 BD46     		mov	sp, r7
+ 158              	.LCFI8:
+ 159              		.cfi_def_cfa_register 13
+ 160              		@ sp needed
+ 161 0022 80BD     		pop	{r7, pc}
+ 162              	.L13:
+ 163              		.align	2
+ 164              	.L12:
+ 165 0024 00000000 		.word	mem_access_task_entry
+ 166 0028 60000000 		.word	.LC3
+ 167              		.cfi_endproc
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccfgezNL.s 			page 5
+
+
+ 168              	.LFE4:
+ 170              		.text
+ 171              	.Letext0:
+ 172              		.file 2 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 173              		.file 3 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 174              		.file 4 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\lib\\gcc\\arm-n
+ 175              		.file 5 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 176              		.file 6 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ 177              		.file 7 "c:\\users\\ly\\opensourcetools\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\
+ARM GAS  C:\Users\LY\AppData\Local\Temp\ccfgezNL.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 osal_mem_demo.c
+C:\Users\LY\AppData\Local\Temp\ccfgezNL.s:18     .rodata:00000000 $d
+C:\Users\LY\AppData\Local\Temp\ccfgezNL.s:28     .text.mem_access_task_entry:00000000 $t
+C:\Users\LY\AppData\Local\Temp\ccfgezNL.s:34     .text.mem_access_task_entry:00000000 mem_access_task_entry
+C:\Users\LY\AppData\Local\Temp\ccfgezNL.s:108    .text.mem_access_task_entry:00000058 $d
+C:\Users\LY\AppData\Local\Temp\ccfgezNL.s:119    .text.standard_app_demo_main:00000000 $t
+C:\Users\LY\AppData\Local\Temp\ccfgezNL.s:126    .text.standard_app_demo_main:00000000 standard_app_demo_main
+C:\Users\LY\AppData\Local\Temp\ccfgezNL.s:165    .text.standard_app_demo_main:00000024 $d
+
+UNDEFINED SYMBOLS
+osal_malloc
+printf
+osal_free
+puts
+osal_task_create
